@@ -17,7 +17,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi there its Tom! What would like to learn about notion?',
+        message: 'Olá está pronto para começar sua formação hoje?',
         type: 'apiMessage',
       },
     ],

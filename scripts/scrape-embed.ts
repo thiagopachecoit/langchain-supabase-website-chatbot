@@ -12,6 +12,8 @@ async function extractDataFromUrl(url: string): Promise<Document[]> {
   try {
     const loader = new CustomWebLoader(url);
     const docs = await loader.load();
+    console.log("Estou pesquisando a url", url);
+    console.log("Conteudo da url", docs);
     return docs;
   } catch (error) {
     console.error(`Error while extracting data from ${url}: ${error}`);
@@ -21,9 +23,11 @@ async function extractDataFromUrl(url: string): Promise<Document[]> {
 
 async function extractDataFromUrls(urls: string[]): Promise<Document[]> {
   console.log('extracting data from urls...');
+  // console.log(urls);
   const documents: Document[] = [];
   for (const url of urls) {
     const docs = await extractDataFromUrl(url);
+    // console.log(docs);
     documents.push(...docs);
   }
   console.log('data extracted from urls');
@@ -40,6 +44,9 @@ async function embedDocuments(
 ) {
   console.log('creating embeddings...');
   await SupabaseVectorStore.fromDocuments(client, docs, embeddings);
+  // console.log('client: ', client);
+  // console.log('docs: ', docs);
+  // console.log('embeddings: ', embeddings);
   console.log('embeddings successfully stored in supabase');
 }
 

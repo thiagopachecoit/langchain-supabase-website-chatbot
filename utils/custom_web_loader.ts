@@ -25,21 +25,29 @@ export class CustomWebLoader
 
   async load(): Promise<Document[]> {
     const $ = await this.scrape();
-    const title = $('h1.entry-title').text();
-    const date = $('meta[property="article:published_time"]').attr('content');
+    const title = $('h1').text();
+    // const title = $('title').text();
+    // const date = $('meta[property="article:published_time"]').attr('content');
+    //const price = $('.mensalidade').children('p:eq(2)').text() ?? 0;
+    //remova o ultimo asterisco da variavel $price e coloque o valor em $price
+    const oldprice = $('.mensalidade').children('p:eq(1)').text() ?? 0;
+    const newprice = $('.mensalidade').children('p:eq(2)').text().replace(/\*/g, '') ?? 0;
+    // const price = $('p.mensalidade') ?? 0;
+    // console.log("price: ", oldprice);
 
-    const content = $('.entry-content')
+    const content = $('.section-courses-grad')
       .clone()
-      .find('div.elementor, style')
+      .find('div.elementor, style, script, h3.titulo-form-inscricao, .legend-form')
       .remove()
       .end()
       .text();
+    // const content = $('.section-courses-grad').text();
 
     const cleanedContent = content.replace(/\s+/g, ' ').trim();
 
     const contentLength = cleanedContent?.match(/\b\w+\b/g)?.length ?? 0;
 
-    const metadata = { source: this.webPath, title, date, contentLength };
+    const metadata = { source: this.webPath, title, oldprice, newprice, contentLength };
 
     return [new Document({ pageContent: cleanedContent, metadata })];
   }
